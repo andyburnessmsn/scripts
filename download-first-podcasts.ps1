@@ -1,9 +1,13 @@
-$rssFeedUrl = 'https://roosterteeth.supportingcast.fm/content/eyJ0IjoicCIsImMiOiIxMzkwIiwidSI6IjQzMDAzOCIsImQiOiIxNjMxNTUzMzA4IiwiayI6MjYxfXxmZTUxMTM5YzJhMGUzMDllNjJjODNkMzQxYmEzOTRhNGRhNmZkMWFjYTYxNTA1Yzc3ODJhNDQwN2E1Zjg5OTkx.rss'
+# edit the value of rssFeedUrl to match the URL from your FIRST premium 
+$rssFeedUrl = 'https://YOUR-FIRST-PODCAST-URL.rss'
 
-$PodcastName = "RT Podcast"
+# edit the value of $PodcastName to match the podcast name.
+$PodcastName = "PODCAST-NAME"
 
-$downloadFolder = '\\tx100-win2012\g$\Rooster Teeth\Podcast'
+# edit the value of $downloadFolder if needed. By default it uses your Downloads folder.
+$downloadFolder = "$($env:userprofile)\Downloads"
 
+# set TLS1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 # Download the RSS feed
@@ -13,7 +17,7 @@ $rssFeed = Invoke-WebRequest -Uri $rssFeedUrl
 $xml = [xml]$rssFeed
 
 # write XML to file for future reference
-$rssFeed.Content | out-file "$downloadFolder\feed.xml"
+$rssFeed.Content | out-file "$downloadFolder\feed-$PodcastName.xml"
 
 # get all items in the feed
 $items = $xml.rss.channel.item
@@ -43,11 +47,6 @@ for ($i = $items.Count; $i -ge 1; $i--) {
     $itemFilePath = "$downloadFolder\$itemFileName"
     
     ##write-host "Downloading episode $i / $($items.count) - title: $itemFileName)"
-
-    # calculate how far we are through the list. ep number times 100 divided by total number of episodes. round to 1 decimal place.
-    ## $percent = [math]::Round($episodeNumber * 100 / $items.Count,1)
-    # show the percent
-    ## write-progress -Activity "Downloading episode $episodeNumber / $($items.Count) " -Status $itemFileName -PercentComplete $percent
 
     write-host "$episodeNumber / $($items.count) - " -NoNewline -ForegroundColor Green
     # if the file path does not exist, download the file
