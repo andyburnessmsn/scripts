@@ -3,13 +3,17 @@
 #######################################################################################################
 
 # edit the value of rssFeedUrl to match the URL from your FIRST premium 
-$rssFeedUrl = 'https://YOUR-FIRST-PODCAST-URL.rss'
+$rssFeedUrl = 'https://YOUR-PODCAST-URL.COM/feed.rss'
 
 # edit the value of $PodcastName to match the podcast name.
 $PodcastName = "PODCAST-NAME"
 
-# edit the value of $downloadFolder if needed. By default it uses your Downloads folder.
-$downloadFolder = "$($env:userprofile)\Downloads"
+# edit the value of $downloadFolder if needed. By default it creates a new folder for the podcast in your Downloads folder.
+$downloadFolder = "$($env:userprofile)\Downloads\$PodcastName"
+
+if (!(test-path $downloadFolder)){
+    mkdir $downloadFolder
+}
 
 # set TLS1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -34,9 +38,6 @@ for ($i = $items.Count; $i -ge 1; $i--) {
     $item = $items[$i]
 
     ## $item = $items[$items.count - 1]
-
-    # set the episode number
-    $episodeNumber = $episodeNumber + 1
 
     # set the episode title
     # $itemTitle = $item.title
@@ -65,4 +66,7 @@ for ($i = $items.Count; $i -ge 1; $i--) {
     write-host $itemFileName -ForegroundColor Cyan
     
     ## start-sleep -Seconds 5
+
+    # increment the episode number
+    $episodeNumber = $episodeNumber + 1
 }
