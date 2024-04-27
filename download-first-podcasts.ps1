@@ -1,3 +1,7 @@
+#######################################################################################################
+### This PowerShell script downloads all .mp3 files from a www.roosterteeth.com/first podcast feed. ###
+#######################################################################################################
+
 # edit the value of rssFeedUrl to match the URL from your FIRST premium 
 $rssFeedUrl = 'https://YOUR-FIRST-PODCAST-URL.rss'
 
