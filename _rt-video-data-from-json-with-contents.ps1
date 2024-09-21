@@ -1,3 +1,7 @@
+##################################################################################################
+### Creates an HTML file with data from JSON files of downloaded Rooster Teeth Archive videos. ###
+##################################################################################################
+
 # path to the folder containing rooster teeth downloads
 $rootFolder = "\\TX100-UNRAID\share1\jdownloader"
 
